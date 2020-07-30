@@ -70,4 +70,4 @@ class Saved extends Component {
     }
 }
 
-export default Saved;
+export default Saved
