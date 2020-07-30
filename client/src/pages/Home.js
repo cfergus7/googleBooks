@@ -5,7 +5,7 @@ import API from '../utils/API';
 import ResultCard from "../components/ResultCards/index";
 import Search from "../components/Search/index";
 
-class Searches extends Component {
+class Home extends Component {
     state = {
         books: [],
         results: [],
@@ -119,4 +119,4 @@ class Searches extends Component {
     }
 }
 
-export default Searches;
+export default Home;
