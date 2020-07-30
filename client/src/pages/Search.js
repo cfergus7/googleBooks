@@ -10,20 +10,6 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles(theme => ({
-    box: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: '20px'
-    },
-    gridList: {
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center'
-    }
-}));
-
 function Search() {
     const classes = useStyles();
 
