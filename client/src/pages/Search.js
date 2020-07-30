@@ -29,7 +29,7 @@ function Search() {
 
     const [books, setBooks] = useState([]);
     const [searchTerm, setSearchTerm] = useState(""); 
-    const [message, setMessage] = useState("Search for a Book to Get Started!")
+    const [message, setMessage] = useState("Pick a book")
 
     const searchBooks = () => {
         API.search(searchTerm)
@@ -38,7 +38,7 @@ function Search() {
             })
             .catch(() => {
                 setBooks([]);
-                setMessage('No New Books Found, Try a Different Search!');
+                setMessage('Try a Different Book');
             });
     }
 
