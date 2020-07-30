@@ -7,7 +7,6 @@ import API from '../utils/API';
 import MediaCard from '../components/MediaCard';
 
 function Saved() {
-    const classes = useStyles();
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
