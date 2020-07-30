@@ -1,50 +1,25 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import React from "react";
+import { BrowserRouter as Router, Link } from "react-router-dom"
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        flexGrow: 1
-    },
-    menuButton: {
-        marginRight: theme.spacing(2)
-    },
-    title: {
-        flexGrow: 1,
-        color: 'black'
-    }
-}));
-
-export default function ButtonAppBar() {
-    const classes = useStyles();
-
+function AppBar() {
     return (
-        <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="menu">
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h5" className={classes.title}>
-                        Google Books Search
-                    </Typography>
-                    <Button color="inherit" href="/search">
-                        Search
-                    </Button>
-                    <Button color="inherit" href="/saved">
-                        Saved Books
-                    </Button>
-                </Toolbar>
-            </AppBar>
-        </div>
-    );
+        <nav className="AppBar AppBar-expand-lg AppBar-dark bg-primary">
+            <p className="AppBar-brand">Google Books</p>
+            <button className="AppBar-toggler" type="button" data-toggle="collapse" data-target="#AppBarSupportedContent" aria-controls="AppBarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="AppBar-toggler-icon"></span>
+            </button>
+
+            <div className="collapse AppBar-collapse" id="AppBarSupportedContent">
+                <ul className="AppBar-nav mr-auto">
+                    <li className="nav-item active">
+                        <a className="nav-link" href="/">Search</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="/saved">Saved</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>)
 }
+
+export default AppBar;
