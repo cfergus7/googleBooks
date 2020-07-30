@@ -6,24 +6,6 @@ import GridList from '@material-ui/core/GridList';
 import API from '../utils/API';
 import MediaCard from '../components/MediaCard';
 
-const useStyles = makeStyles({
-    root: {
-        maxWidth: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-        margin: '20px'
-    },
-    heading: {
-        margin: "25px"
-    },
-    gridList: {
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center'
-    }
-});
-
 function Saved() {
     const classes = useStyles();
     const [books, setBooks] = useState([]);
