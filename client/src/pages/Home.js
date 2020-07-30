@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import AppBar from '../components/AppBar/index';
 import Jumbotron from '../components/Jumbotron/index';
 import API from '../utils/API';
-import ResultCard from "../components/ResultCards/index";
+import ResultCard from "../components/ResultCard/index";
 import Search from "../components/Search/index";
 
 class Home extends Component {

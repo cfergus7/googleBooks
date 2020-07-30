@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../Button'
+import Button from '../Button';
 
 function ResultCard({ title, link, id, author, image, description, saveBook, deleteBook }) {
     if (!saveBook) {

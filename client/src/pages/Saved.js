@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AppBar from '../components/AppBar/index';
 import API from '../utils/API';
+import ResultCard from '../components/ResultsCard/index';
 
 class Saved extends Component {
     state = {
