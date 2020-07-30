@@ -1,8 +1,5 @@
 import axios from 'axios';
 
-// const BASEURL =
-//   "https://www.googleapis.com/books/v1/volumes?q=intitle:" +  "&key=";
-// let query = 'harry+potter';
 
 export default {
     // Gets all books
