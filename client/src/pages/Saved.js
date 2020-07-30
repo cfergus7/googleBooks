@@ -1,54 +1,73 @@
-import React, { useEffect, useState } from 'react';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import { makeStyles } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
+import React, { Component } from "react";
+import AppBar from '../components/AppBar/index';
 import API from '../utils/API';
-import MediaCard from '../components/MediaCard';
+import ResultCard from "../components/ResultCards/index";
 
-function Saved() {
-    const [books, setBooks] = useState([]);
-
-    useEffect(() => {
-        loadBooks()
-    }, []);
-
-    const loadBooks = () => {
-    API.getBooks()
-        .then(res => setBooks(res.data))
-        .catch(err => console.log(err));
+class Saved extends Component {
+    state = {
+        results: []
     }
 
-    const deleteBook = (id) => {
-        API.deleteBook(id)
-            .then(res => loadBooks())
-            .catch(err => console.log(err));
+    componentDidMount() {
+        API.getBooks()
+            .then(res =>  {
+                this.setState({ results: res.data });
+                console.log('results:', this.state.results)
+            })
+            .catch(err => {
+                throw err
+            })
     }
 
-    return (
-        <Container border={1} borderColor="secondary" className={classes.root}>
-            <Typography color="secondary" variant="h3" component="h1" className={classes.heading}>
-                Saved Books
-            </Typography>
-            <GridList className={classes.gridList} cols={3}>
-                {books.map((book, i) => (
-                    <MediaCard
-                        key={i}
-                        id={book._id}
-                        image={book.image}
-                        title={book.title}
-                        authors={book.authors}
-                        description={book.description}
-                        link={book.link}
-                        action={() => {
-                            deleteBook(book._id);
-                        }}
-                        btnContent={'Delete Book'}
-                    />
-                ))}
-            </GridList>
-        </Container>
-    );
+    handleDeleteBook = event => {
+        event.preventDefault();
+
+        const bookID = event.target.getAttribute('data-id')
+
+        const newState = {...this.state}
+
+        newState.results = this.state.results.filter(book => book._id !== bookID)
+        // Filters out any books with the matching target id
+
+        API.deleteBook(bookID).then(
+            (response) => {
+                this.setState(newState)
+                console.log(response);
+
+            }
+        ).catch(
+            (err) => {
+                console.log(err);
+            }
+        );
+    }
+
+    render() {
+        return (
+            <div>
+                <AppBar />
+                <div className='container'>
+                    <h3>Your Saved Books</h3>
+                    <div className='container-fluid' id='main-content'>
+                        {this.state.results.map((book) => {
+                            return (
+                                <ResultCard
+                                    key={book._id}
+                                    title={book.title}
+                                    id={book._id}
+                                    link={book.link}
+                                    author={book.authors}
+                                    image={book.image}
+                                    description={book.description}
+                                    deleteBook={this.handleDeleteBook}
+                                />
+                            )
+                        })}
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }
 
-export default Saved;
+export default Saved

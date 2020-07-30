@@ -1,97 +1,122 @@
-import React, { useState } from 'react';
-import Header from '../components/Header';
-import Textfield from '../components/Textfield';
+import React, { Component } from "react";
+import AppBar from '../components/AppBar/index';
+import Jumbotron from '../components/Jumbotron/index';
 import API from '../utils/API';
-import { makeStyles } from '@material-ui/core/styles';
-import MediaCard from '../components/MediaCard';
-import GridList from '@material-ui/core/GridList';
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
+import ResultCard from "../components/ResultCards/index";
+import Search from "../components/Search/index";
 
-function Search() {
-    const classes = useStyles();
+class Searches extends Component {
+    state = {
+        books: [],
+        results: [],
+        title: ""
+    }
 
-    const [books, setBooks] = useState([]);
-    const [searchTerm, setSearchTerm] = useState(""); 
-    const [message, setMessage] = useState("Pick a book")
-
-    const searchBooks = () => {
-        API.search(searchTerm)
-            .then(response => {
-                setBooks(response.data);
+    componentDidMount() {
+        API.getBooks()
+            .then(res =>  {
+                this.setState({ books: res.data });
+                console.log('books:', this.state.books)
             })
-            .catch(() => {
-                setBooks([]);
-                setMessage('Try a Different Book');
-            });
+            .catch(err => {
+                throw err
+            })
     }
 
-    const handleInputChange = (event) => {
-        const { value } = event.target;
-        setSearchTerm(value);
-    }
-
-    const saveBook = (bookData) => {
-        API.saveBook({
-            title: bookData.volumeInfo.title,
-            authors: bookData.volumeInfo.authors ? bookData.volumeInfo.authors : 'No authors found',
-            description: bookData.volumeInfo.description
-                ? bookData.volumeInfo.description
-                : 'No synopsis found',
-            image: bookData.volumeInfo.imageLinks
-                ? bookData.volumeInfo.imageLinks.thumbnail
-                : 'https://via.placeholder.com/150.png?text=No+Image+Found',
-            link: bookData.volumeInfo.infoLink
+    handleInputChange = event => {
+        const { name, value } = event.target
+        this.setState({
+            [name]: value
         })
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
     }
 
+    handleFormSubmit = event => {
+        event.preventDefault();
+        API.getGoogleSearchBooks(this.state.title)
+            .then(res => {
+                this.setState({
+                    results: res.data.items
+                })
+            })
+            .catch(err => {
+                throw err
+            })
+    }
+    
+    handleSaveBook = event => {
+        event.preventDefault();
 
-    return (
-        <Container>
-            <Header />
-            <Textfield handleInputChange={handleInputChange} name="title" searchTerm={searchTerm} />
-            <Box className={classes.box}>
-                <Button variant="contained" color="secondary" onClick={searchBooks}>
-                    Search
-                </Button>
-            </Box>
-            {/* <GridList className={classes.gridList} cols={3}> */}
-            {books.length ? (
-                <GridList className={classes.gridList} cols={3}>
-                    {books.map((book, i) => (
-                        <MediaCard
-                            key={i}
-                            image={
-                                book.volumeInfo.imageLinks
-                                    ? book.volumeInfo.imageLinks.thumbnail
-                                    : 'https://via.placeholder.com/150.png?text=No+Image+Found'
-                            }
-                            title={book.volumeInfo.title}
-                            authors={book.volumeInfo.authors.join(', ')}
-                            description={
-                                book.volumeInfo.description
-                                    ? book.volumeInfo.description
-                                    : 'No synopsis found'
-                            }
-                            link={book.volumeInfo.infoLink}
-                            action={() => {
-                                saveBook(book);
-                            }}
-                            btnContent={'Save Book'}
-                        />
-                    ))}
-                </GridList>
-            ) : (
-                <Typography color="primary" variant="h3" className={classes.box}>
-                    {message}
-                </Typography>
-            )}
-        </Container>
-    );
+        const bookID = event.target.getAttribute('data-id')
+        // console.log("Book ID:", bookID )
+
+        const newState = {...this.state}
+        // console.log(this.state.results)
+
+        let targetBook = this.state.results.filter(book => book.id === bookID)
+        // Parses out book data from results by book id
+
+        const newBook = {
+            title: targetBook[0].volumeInfo.title,
+            authors: targetBook[0].volumeInfo.authors,
+            description: targetBook[0].volumeInfo.description,
+            image: targetBook[0].volumeInfo.imageLinks.thumbnail,
+            link: targetBook[0].volumeInfo.infoLink
+        }
+        // Instantiates new object formatted per the db schema.
+
+        if (this.state.books[bookID]) {
+            console.log(`You've already saved that book.`)
+            return
+
+        } else {
+            newState.books[bookID] = newBook
+            // console.log('Target:', targetBook[0])
+            
+            this.setState(newState)
+            // Mutates state to now hold saved books in this.state.books
+            console.log('Updated this.state:', this.state.books)
+
+            API.saveBook({
+                title: targetBook[0].volumeInfo.title,
+                authors: targetBook[0].volumeInfo.authors,
+                description: targetBook[0].volumeInfo.description,
+                image: targetBook[0].volumeInfo.imageLinks.thumbnail,
+                link: targetBook[0].volumeInfo.infoLink
+            })
+
+            console.log(newState.books)
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                <AppBar />
+                <Jumbotron />
+                <div className='container'>
+                    <Search
+                    handleFormSubmit = {this.handleFormSubmit}
+                    handleInputChange = {this.handleInputChange} />
+                    <div className='container-fluid' id='main-content'>
+                        {this.state.results.map((book) => {
+                            return (
+                                <ResultCard
+                                    key={book.id}
+                                    title={book.volumeInfo.title}
+                                    id={book.id}
+                                    link={book.volumeInfo.infoLink}
+                                    author={book.volumeInfo.authors}
+                                    image={book.volumeInfo.imageLinks.thumbnail}
+                                    description={book.volumeInfo.description}
+                                    saveBook={this.handleSaveBook}
+                                />
+                            )
+                        })}
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }
 
-export default Search;
+export default Searches;
