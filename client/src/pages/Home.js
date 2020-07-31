@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Jumbotron from '../components/Jumbotron/index';
 import API from '../utils/API';
-import ResultCard from "../components/ResultsCards/index";
+import ResultCard from "../components/ResultsCard";
 import Search from "../components/Search/index";
 
 class Home extends Component {
