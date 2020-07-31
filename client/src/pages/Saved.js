@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import AppBar from '../components/AppBar/index';
 import API from '../utils/API';
-import ResultCard from '../components/ResultsCard/index';
+import ResultCard from "../components/ResultsCards/index";
 
 class Saved extends Component {
     state = {
@@ -45,7 +44,6 @@ class Saved extends Component {
     render() {
         return (
             <div>
-                <AppBar />
                 <div className='container'>
                     <h3>Your Saved Books</h3>
                     <div className='container-fluid' id='main-content'>
