@@ -12,7 +12,22 @@ function ResultCard({ title, link, id, author, image, description, saveBook, del
                             <br />Written By:
                         <br />{author}</small>
                     </div>
-                    
+                    <span className='col-3 offset-6'>
+                        <Button
+                            href={link}>
+                        View
+                        </Button>
+                        <Button
+                            id={id}
+                            onClick={(event) => saveBook(event)}
+                        >Save
+                        </Button>
+                        <Button
+                            id={id}
+                            onClick={(event) => deleteBook(event)}
+                        >Delete
+                        </Button>
+                    </span>
                 </div>
                 <div className='row'>
                     <hr />
