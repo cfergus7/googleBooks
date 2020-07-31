@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import AppBar from '../components/AppBar/index';
 import Jumbotron from '../components/Jumbotron/index';
 import API from '../utils/API';
-import ResultCard from "../components/ResultCards/index";
+import ResultCard from "../components/ResultsCards/index";
 import Search from "../components/Search/index";
 
-class Searches extends Component {
+class Home extends Component {
     state = {
         books: [],
         results: [],
@@ -91,7 +90,6 @@ class Searches extends Component {
     render() {
         return (
             <div>
-                <AppBar />
                 <Jumbotron />
                 <div className='container'>
                     <Search
@@ -119,4 +117,4 @@ class Searches extends Component {
     }
 }
 
-export default Searches;
+export default Home;
