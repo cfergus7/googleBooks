@@ -10,7 +10,7 @@ function SearchForm(props) {
                 onChange={props.handleInputChange}></input>
                 <br />
                 <button
-                className='btn btn-block'
+                className='btn btn-block btn-secondary'
                     onClick={props.handleFormSubmit}
                     type='submit'
                 >   Search!
