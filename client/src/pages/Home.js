@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import AppBar from '../components/AppBar/index';
 import Jumbotron from '../components/Jumbotron/index';
 import API from '../utils/API';
-import ResultCard from "../components/ResultCard/index";
+import ResultCard from "../components/ResultsCard/index";
 import Search from "../components/Search/index";
 
 class Home extends Component {
@@ -32,7 +32,7 @@ class Home extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault();
-        API.getGoogleSearchBooks(this.state.title)
+        API.search(this.state.title)
             .then(res => {
                 this.setState({
                     results: res.data.items
