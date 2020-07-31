@@ -32,6 +32,7 @@ class Home extends Component {
     handleFormSubmit = event => {
         event.preventDefault();
         API.getGoogleSearchBooks(this.state.title)
+
             .then(res => {
                 this.setState({
                     results: res.data.items
