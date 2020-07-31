@@ -27,7 +27,6 @@ function ResultCard({ title, link, id, author, image, description, saveBook, del
                             onClick={(event) => deleteBook(event)}
                         >Delete
                         </Button>
-
                     </span>
                 </div>
                 <div className='row'>
