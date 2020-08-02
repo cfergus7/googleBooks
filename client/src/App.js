@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import AppBar from './components/AppBar';
-import Search from './pages/Search';
+import Home from './pages/Home';
 import Saved from './pages/Saved';
 
 function App() {
@@ -10,12 +10,8 @@ function App() {
                 <div>
                     <AppBar color="primary" />
                     <Switch>
-                        <Route exact path={['/', '/search']}>
-                            <Search />
-                        </Route>
-                        <Route exact path="/saved">
-                            <Saved />
-                        </Route>
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/saved" component={Saved} />
                     </Switch>
                 </div>
         </Router>
